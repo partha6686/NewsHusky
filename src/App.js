@@ -12,11 +12,13 @@ import LoadingBar from 'react-top-loading-bar';
 const App = () => {
   const apiKey=process.env.REACT_APP_API_KEY;
   const pageSize=12;
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0);
+  const [query,setQuery] = useState("");
+  //let match = useRouteMatch();
   return (
     <div>
       <Router>
-        <Navbar />
+        <Navbar query={query} setQuery={setQuery} />
         <LoadingBar
           height={3}
           color="#16E2F5"
@@ -30,7 +32,7 @@ const App = () => {
           <Route exact path="/science"><News setProgress={setProgress} apiKey={apiKey} key="science" pageSize={pageSize} category="science"/></Route>
           <Route exact path="/sports"><News setProgress={setProgress} apiKey={apiKey} key="sports" pageSize={pageSize} category="sports"/></Route>
           <Route exact path="/technology"><News setProgress={setProgress} apiKey={apiKey} key="technology" pageSize={pageSize} category="technology"/></Route>
-          {/* <Route exact path="/query/:search"><News setProgress={setProgress} apiKey={apiKey} key="query" pageSize={pageSize} category="general" globalStore={this.params.}/></Route> */}
+          <Route exact path="/query"><News setProgress={setProgress} apiKey={apiKey} key={query} pageSize={pageSize} category="general" /></Route>
         </Switch>
       </Router>
     </div>

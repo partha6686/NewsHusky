@@ -1,10 +1,18 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [category, setCategory] = useState("general");
+  const [value, setValue] = useState("");
   function handleClick(cat) {
     setCategory(cat);
+  }
+  function handleChange(e){
+    //console.log(e.target.value);
+    setValue(e.target.value);
+  }
+  function handleSubmit(){
+    props.setQuery(value);
   }
   return (
     <div>
@@ -24,10 +32,14 @@ const Navbar = () => {
               <li className="nav-item mx-3"><Link onClick={() => (handleClick("sports"))} className={category === "sports" ? "nav-link active" : "nav-link"} to="/sports" >Sports</Link></li>
               <li className="nav-item mx-3"><Link onClick={() => (handleClick("technology"))} className={category === "technology" ? "nav-link active" : "nav-link"} to="/technology" >Technology</Link></li>
             </ul>
-            {/* <form class="d-flex" action="/query" method="GET">
-              <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search" />
-              <button class="btn btn-outline-info" type="submit">Search</button>
-            </form> */}
+            <div className="d-flex" >
+              <input onChange={handleChange} className="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search" />
+              {/* <button onClick={handleSubmit} className="btn btn-outline-info" type="submit">Search</button> */}
+              <Link to={{
+                pathname: "/query",
+                search: "?q=" + value
+              }} ><button onClick={handleSubmit} className="btn btn-outline-info">Search</button></Link>
+            </div>
           </div>
         </div>
       </nav>
